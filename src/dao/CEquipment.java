@@ -15,13 +15,14 @@ public class CEquipment {
 			
 	
 	//Méthode d'insertion d'un équipement
+	//TODO mettre à jour
 	public static void insertTest(String nom, String ip, String port, int type, int idEmplacement, String etat,
 								  String positionXY, String commentaire,Connection con)
 	{
 		Statement smt;
 		try {
 			smt = con.createStatement();
-			String sql = "insert into equipment(NOM, IP, PORT, TYPE, IDEMPLACEMENT, ETAT, PositionXY, commentaire) values (" 
+			String sql = "insert into equipements(NOM, IP, PORT, TYPE, IDEMPLACEMENT, ETAT, PositionXY, commentaire) values (" 
 					+ "'" + nom + "', '" + ip + "', '" + port + "', " + type + ", " + idEmplacement 
 					+ ", '" + etat + "', '" + positionXY + "', '" + commentaire + "');";
 			int count = smt.executeUpdate(sql);
@@ -36,24 +37,14 @@ public class CEquipment {
 	{
 		List<String> equipmentIpPortState = new ArrayList<String>();
 		//Envoi d'une requête pour récupérer les infos de l'equipement
-		String sqlQuery = "SELECT * FROM equipment WHERE EquID = " + id;
+		String sqlQuery = "SELECT * FROM equipements WHERE EquID = " + id;
 		Statement smt = CMain.con.createStatement();
 		ResultSet rs = smt.executeQuery(sqlQuery);
 		updateEquipment(id, "etat", etat, "EquID", CMain.con);
 		
 			while(rs.next())
 			{
-				if(etat.equals("3"))
-				{
-					equipmentIpPortState.add(rs.getString("IP") + "+" + rs.getString("port") + "10");	
-				} else if(etat.equals("4"))
-				{
-					equipmentIpPortState.add(rs.getString("IP") + "+" + rs.getString("port") + "11");	
-				} else
-				{
-					equipmentIpPortState.add(rs.getString("IP") + "+" + rs.getString("port") + etat);
-				}
-				
+					equipmentIpPortState.add(rs.getString("IP") + "+" + rs.getString("automate") + etat);				
 			}
 		System.out.println("id : " + id + ", etat : " + etat);
 			
@@ -63,21 +54,17 @@ public class CEquipment {
 	}
 	
 	//Allumer ou éteindre plusieurs équipements
-	public static List<String> turnOnOffMultipleEquipments(int equipmentType, String etat, int roomID) throws SQLException
+	public static List<String> turnOnOffEquipmentsFromRoom(int equipmentType, String etat, int roomID) throws SQLException
 	{
 		List<String> equipmentsIpPortState = new ArrayList<String>();
 		//Envoi d'une requête
 		String sql;
-		sql = "select * from equipment where type = " + equipmentType;
-		if(roomID != 0)
-		{
-			sql += " and IDEMPLACEMENT = " + roomID;
-		}
+		sql = "select * from equipements where type = " + equipmentType + " and idemplacement = " + roomID;
 		Statement smt = CMain.con.createStatement();
 		ResultSet rs = smt.executeQuery(sql);
 			while(rs.next())
 			{
-				equipmentsIpPortState.add(rs.getString("IP") + "+" + rs.getString("port") + etat);
+				equipmentsIpPortState.add(rs.getString("IP") + "+" + rs.getString("automate") + etat);
 				updateEquipment(equipmentType, "etat", etat, "type", CMain.con);		
 			}
 		//smt = CMain.con.createStatement();		
@@ -85,18 +72,43 @@ public class CEquipment {
 		return equipmentsIpPortState;
 	}
 	
+	//Allumer ou éteindre plusieurs équipements
+		public static List<String> turnOnOffEquipmentsFromFloor(int equipmentType, String etat, int floorID) throws SQLException
+		{
+			List<String> equipmentsIpPortState = new ArrayList<String>();
+			//Envoi d'une requête
+			String sql;
+			sql = "select * from equipements where type = " + equipmentType;
+			if(floorID != 0)
+			{
+				sql += " and IDEMPLACEMENT = " + floorID;
+			}
+			Statement smt = CMain.con.createStatement();
+			ResultSet rs = smt.executeQuery(sql);
+				while(rs.next())
+				{
+					equipmentsIpPortState.add(rs.getString("IP") + "+" + rs.getString("automate") + etat);
+					updateEquipment(equipmentType, "etat", etat, "type", CMain.con);		
+				}
+			//smt = CMain.con.createStatement();		
+			
+			return equipmentsIpPortState;
+		}
+		
+		
+	
 	//Allumer ou éteindre un équipement
 		public static List<String> turnOnOffOneAC(int id, String etat, String mode) throws Exception
 		{
 			List<String> equipmentIpPortState = new ArrayList<String>();
 			//Envoi d'une requête pour récupérer les infos de l'equipement
-			String sqlQuery = "SELECT * FROM equipment WHERE EquID = " + id;
+			String sqlQuery = "SELECT * FROM equipements WHERE EquID = " + id;
 			Statement smt = CMain.con.createStatement();
 			ResultSet rs = smt.executeQuery(sqlQuery);
 			
 				while(rs.next())
 				{
-					equipmentIpPortState.add(rs.getString("IP") + "+" + rs.getString("port") + etat + mode);
+					equipmentIpPortState.add(rs.getString("IP") + "+" + rs.getString("automate") + etat + mode);
 					updateEquipment(id, "etat", etat, "EquID", CMain.con);
 					//updateEquipment(id, "mode", mode, "EquID", CMain.con);
 				}
@@ -108,21 +120,18 @@ public class CEquipment {
 		}
 		
 		//Allumer ou éteindre plusieurs équipements
-		public static List<String> turnOnOffMultipleAC(String etat, String mode, int roomID) throws SQLException
+		public static List<String> turnOnOffACFromRoom(String etat, String mode, int roomID) throws SQLException
 		{
 			List<String> equipmentsIpPortState = new ArrayList<String>();
 			//Envoi d'une requête
 			String sql;
-			sql = "select * from equipment where type = 3";
-			if(roomID != 0)
-			{
-				sql += " and IDEMPLACEMENT = " + roomID;
-			}
+			sql = "select * from equipements where type = 3 and IDEMPLACEMENT = " + roomID;
+			
 			Statement smt = CMain.con.createStatement();
 			ResultSet rs = smt.executeQuery(sql);
 				while(rs.next())
 				{
-					equipmentsIpPortState.add(rs.getString("IP") + "+" + rs.getString("port") + etat + mode);
+					equipmentsIpPortState.add(rs.getString("IP") + "+" + rs.getString("automate") + etat + mode);
 					updateEquipment(3, "etat", etat, "type", CMain.con);
 					//updateEquipment(3, "mode", mode, "type", CMain.con);	
 				}
@@ -131,13 +140,13 @@ public class CEquipment {
 			return equipmentsIpPortState;
 		}
 	
-	//Modifier l'état d'un équipement
+	//Modifier une colomne d'un équipement
 	public static void updateEquipment(int idType, String column, String etat, String where, Connection con) throws SQLException
 	{
 		String sql;
 		PreparedStatement preparedSmt = null;
 		try {
-			sql = "update equipment set "+ column +" = ? where "+ where +" = ?";
+			sql = "update equipements set "+ column +" = ? where "+ where +" = ?";
 			
 			preparedSmt = con.prepareStatement(sql);
 			preparedSmt.setString(1, etat);
@@ -153,7 +162,7 @@ public class CEquipment {
 	//Récupérer l'état d'un équipement
 	public static String getEquipmentState(int id) throws SQLException
 	{
-		String sqlQuery = "SELECT * FROM equipment WHERE EquID = " + id;
+		String sqlQuery = "SELECT * FROM equipements WHERE EquID = " + id;
 		Statement smt = CMain.con.createStatement();
 		ResultSet rs = smt.executeQuery(sqlQuery);
 		String state = "";

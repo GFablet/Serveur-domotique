@@ -19,7 +19,6 @@ public class CServer extends ServerSocket implements Runnable{
     public CServer() throws Exception{
     	super(PORT);
     	new Thread(this).start();
-    	//CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
     }
 
 
@@ -64,18 +63,18 @@ public class CServer extends ServerSocket implements Runnable{
 			    {
 			    	//CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
 			        CClient.getInstance().sendCommand(CEquipment.turnOnOffOneEquipment(Integer.parseInt(command[1]), command[2]));
-			    } else if(command[0].equals("turnOnOffMultipleEquipments"))
+			    } else if(command[0].equals("turnOnOffEquipmentsFromRoom"))
 			    {
 			        //CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
-			        CClient.getInstance().sendCommand(CEquipment.turnOnOffMultipleEquipments(Integer.parseInt(command[1]), command[2], Integer.parseInt(command[3])));
+			        CClient.getInstance().sendCommand(CEquipment.turnOnOffEquipmentsFromRoom(Integer.parseInt(command[1]), command[2], Integer.parseInt(command[3])));
 			    } else if(command[0].equals("turnOnOffOneAC"))
 			    {
 			       // CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
 			        CClient.getInstance().sendCommand(CEquipment.turnOnOffOneAC(Integer.parseInt(command[1]), command[2], command[3]));
-			    } else if(command[0].equals("turnOnOffMultipleAC"))
+			    } else if(command[0].equals("turnOnOffACFromRoom"))
 			    {
 			        //CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
-			        CClient.getInstance().sendCommand(CEquipment.turnOnOffMultipleAC(command[1], command[2], Integer.parseInt(command[3])));
+			        CClient.getInstance().sendCommand(CEquipment.turnOnOffACFromRoom(command[1], command[2], Integer.parseInt(command[3])));
 			    } 
 			    pw.close(); br.close();
 			}

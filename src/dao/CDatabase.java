@@ -13,7 +13,7 @@ public class CDatabase {
 	//Protocole de connexion
 	public static final String PROTOCOLE = "jdbc:mysql:";
 	//Nom de la BDD
-	public static final String DB_NAME = "clicom";
+	public static final String DB_NAME = "dbprojet";
 	public static final String CONNECTION_STRING = PROTOCOLE + "//" + DB_IP + ":" + DB_PORT + "/" + DB_NAME;
 	//Identifiants
 	public static final String LOGIN = "root";
