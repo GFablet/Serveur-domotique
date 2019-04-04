@@ -93,10 +93,9 @@ public class CClient extends Socket implements Runnable {
 				//System.out.println(bits);
 				mPw.print((char)Integer.parseInt(bytes));
 			}
-			mPw.print((char)0);
+			//mPw.print((char)0);
 		}
 		mPw.flush();
-		
 	}
 	
 	public void closeClient() throws IOException

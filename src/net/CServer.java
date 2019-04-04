@@ -62,15 +62,21 @@ public class CServer extends ServerSocket implements Runnable{
 			          	//System.out.println(result);
 			    }else if(command[0].equals("turnOnOffOneEquipment"))
 			    {
-			    	CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
+			    	//CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
 			        CClient.getInstance().sendCommand(CEquipment.turnOnOffOneEquipment(Integer.parseInt(command[1]), command[2]));
-			        CClient.getInstance().closeClient();
 			    } else if(command[0].equals("turnOnOffMultipleEquipments"))
 			    {
-			        CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
+			        //CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
 			        CClient.getInstance().sendCommand(CEquipment.turnOnOffMultipleEquipments(Integer.parseInt(command[1]), command[2], Integer.parseInt(command[3])));
-			        CClient.getInstance().closeClient();
-			    }
+			    } else if(command[0].equals("turnOnOffOneAC"))
+			    {
+			       // CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
+			        CClient.getInstance().sendCommand(CEquipment.turnOnOffOneAC(Integer.parseInt(command[1]), command[2], command[3]));
+			    } else if(command[0].equals("turnOnOffMultipleAC"))
+			    {
+			        //CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
+			        CClient.getInstance().sendCommand(CEquipment.turnOnOffMultipleAC(command[1], command[2], Integer.parseInt(command[3])));
+			    } 
 			    pw.close(); br.close();
 			}
 			    

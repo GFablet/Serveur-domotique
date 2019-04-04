@@ -26,6 +26,7 @@ public class CMain {
 			//Connexion
 			con = DriverManager.getConnection(CDatabase.CONNECTION_STRING, CDatabase.LOGIN, CDatabase.PASSWORD);
 			
+			CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
 			CServer server = new CServer();
 			
 			/*String etat = "1";
