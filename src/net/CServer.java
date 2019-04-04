@@ -67,6 +67,10 @@ public class CServer extends ServerSocket implements Runnable{
 			    {
 			        //CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
 			        CClient.getInstance().sendCommand(CEquipment.turnOnOffEquipmentsFromRoom(Integer.parseInt(command[1]), command[2], Integer.parseInt(command[3])));
+			    } else if(command[0].equals("turnOnOffEquipmentsFromFloor"))
+			    {
+			        //CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
+			        CClient.getInstance().sendCommand(CEquipment.turnOnOffEquipmentsFromFloor(Integer.parseInt(command[1]), command[2], Integer.parseInt(command[3])));
 			    } else if(command[0].equals("turnOnOffOneAC"))
 			    {
 			       // CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);

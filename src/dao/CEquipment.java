@@ -53,7 +53,7 @@ public class CEquipment {
 		return equipmentIpPortState;
 	}
 	
-	//Allumer ou éteindre plusieurs équipements
+	//Allumer ou éteindre les équipements d'une pièce
 	public static List<String> turnOnOffEquipmentsFromRoom(int equipmentType, String etat, int roomID) throws SQLException
 	{
 		List<String> equipmentsIpPortState = new ArrayList<String>();
@@ -72,17 +72,14 @@ public class CEquipment {
 		return equipmentsIpPortState;
 	}
 	
-	//Allumer ou éteindre plusieurs équipements
+	//Allumer ou éteindre les équipements d'un étage
 		public static List<String> turnOnOffEquipmentsFromFloor(int equipmentType, String etat, int floorID) throws SQLException
 		{
 			List<String> equipmentsIpPortState = new ArrayList<String>();
 			//Envoi d'une requête
 			String sql;
-			sql = "select * from equipements where type = " + equipmentType;
-			if(floorID != 0)
-			{
-				sql += " and IDEMPLACEMENT = " + floorID;
-			}
+			sql = "select * from equipements inner join emplacements on IDEMPLACEMENT = EmpID" +
+			      " where ZoneID = " + floorID + " and type = " + equipmentType;
 			Statement smt = CMain.con.createStatement();
 			ResultSet rs = smt.executeQuery(sql);
 				while(rs.next())
@@ -119,7 +116,7 @@ public class CEquipment {
 			return equipmentIpPortState;
 		}
 		
-		//Allumer ou éteindre plusieurs équipements
+		//Allumer ou éteindre la clim d'une pièce
 		public static List<String> turnOnOffACFromRoom(String etat, String mode, int roomID) throws SQLException
 		{
 			List<String> equipmentsIpPortState = new ArrayList<String>();
