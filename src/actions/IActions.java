@@ -1,7 +1,7 @@
 package actions;
 
-public interface IAction {
-		
+public interface IActions {
+	
 	public void execute();
 	
 	public void stopExecutions();

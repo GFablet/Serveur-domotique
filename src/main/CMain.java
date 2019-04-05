@@ -6,10 +6,6 @@ import java.sql.DriverManager;
 import java.util.HashMap;
 import java.util.Map;
 
-import actions.CScenariosManager;
-import actions.CSwitchOffAction;
-import actions.CSwitchOnAction;
-import actions.CWaitAction;
 import net.CClient;
 import net.CServer;
 import dao.CDatabase;
@@ -18,7 +14,7 @@ import scenarios.parser.CParserDSDL;
 public class CMain {
 
 
-	public static final int HOUSE_PORT = 3379;
+	public static final int HOUSE_PORT = 39098;
 	public static final String HOUSE_IP = "192.168.56.1";
 	public static Map<String, Integer> lights = null;
 	public static Connection con = null;
@@ -34,6 +30,7 @@ public class CMain {
 			//Connexion
 			con = DriverManager.getConnection(CDatabase.CONNECTION_STRING, CDatabase.LOGIN, CDatabase.PASSWORD);
 			
+<<<<<<< HEAD
 
 			lights = new HashMap<>();
 			
@@ -46,6 +43,8 @@ public class CMain {
 			
 			
 			
+=======
+>>>>>>> parent of b488e37... Ajout scénarios
 			CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
 			CServer server = new CServer();
 			

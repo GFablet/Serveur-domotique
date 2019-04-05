@@ -1,5 +1,6 @@
 package actions;
 
+<<<<<<< HEAD
 import main.CMain;
 import net.CClient;
 import dao.CEquipment;
@@ -38,10 +39,20 @@ public class CSwitchOnAction implements IAction{
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+=======
+public class CSwitchOnAction implements IActions{
+
+	@Override
+	public void execute() {
+		// TODO Auto-generated method stub
+		
+>>>>>>> parent of b488e37... Ajout scénarios
 	}
 
 	@Override
 	public void stopExecutions() {
 		// TODO Auto-generated method stub
+		
 	}
+
 }
