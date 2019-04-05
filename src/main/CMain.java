@@ -31,6 +31,7 @@ public class CMain {
 			con = DriverManager.getConnection(CDatabase.CONNECTION_STRING, CDatabase.LOGIN, CDatabase.PASSWORD);
 			
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 			lights = new HashMap<>();
 			
@@ -43,6 +44,8 @@ public class CMain {
 			
 			
 			
+=======
+>>>>>>> parent of b488e37... Ajout scénarios
 =======
 >>>>>>> parent of b488e37... Ajout scénarios
 			CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
