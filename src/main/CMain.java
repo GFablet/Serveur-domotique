@@ -3,6 +3,8 @@ package main;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
+import java.util.HashMap;
+import java.util.Map;
 
 import actions.CScenariosManager;
 import actions.CSwitchOffAction;
@@ -11,12 +13,14 @@ import actions.CWaitAction;
 import net.CClient;
 import net.CServer;
 import dao.CDatabase;
+import scenarios.parser.CParserDSDL;
 
 public class CMain {
 
 
 	public static final int HOUSE_PORT = 3379;
 	public static final String HOUSE_IP = "192.168.56.1";
+	public static Map<String, Integer> lights = null;
 	public static Connection con = null;
 
 	public static void main(String[] args) {
@@ -30,28 +34,16 @@ public class CMain {
 			//Connexion
 			con = DriverManager.getConnection(CDatabase.CONNECTION_STRING, CDatabase.LOGIN, CDatabase.PASSWORD);
 			
+
+			lights = new HashMap<>();
 			
-			CScenariosManager.getInstance().addAction(new CSwitchOnAction(22));
-	    	CScenariosManager.getInstance().addAction(new CWaitAction(200));
-	    	CScenariosManager.getInstance().addAction(new CSwitchOffAction(16));
-	    	CScenariosManager.getInstance().addAction(new CWaitAction(1000));
-	    	CScenariosManager.getInstance().addAction(new CSwitchOnAction(8));
-	    	CScenariosManager.getInstance().addAction(new CWaitAction(200));
-	    	CScenariosManager.getInstance().addAction(new CSwitchOffAction(22));
-	    	CScenariosManager.getInstance().addAction(new CWaitAction(1000));
-	    	CScenariosManager.getInstance().addAction(new CSwitchOnAction(17));
-	    	CScenariosManager.getInstance().addAction(new CWaitAction(200));
-	    	CScenariosManager.getInstance().addAction(new CSwitchOffAction(8));
-	    	CScenariosManager.getInstance().addAction(new CWaitAction(1000));
-	    	CScenariosManager.getInstance().addAction(new CSwitchOnAction(23));
-	    	CScenariosManager.getInstance().addAction(new CWaitAction(200));
-	    	CScenariosManager.getInstance().addAction(new CSwitchOffAction(17));
-	    	CScenariosManager.getInstance().addAction(new CWaitAction(1000));
-	    	CScenariosManager.getInstance().addAction(new CSwitchOnAction(12));
-	    	CScenariosManager.getInstance().addAction(new CWaitAction(200));
-	    	CScenariosManager.getInstance().addAction(new CSwitchOffAction(23));
-	    	CScenariosManager.getInstance().addAction(new CWaitAction(5000));
-	    	CScenariosManager.getInstance().addAction(new CSwitchOffAction(12));
+			lights.put("lumiere1", 57);
+			lights.put("lumiere2", 59);
+			lights.put("lumiere3", 16);
+			lights.put("lumiere4", 65);
+			lights.put("lumiere5", 39);
+			
+			
 			
 			
 			CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);

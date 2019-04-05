@@ -1,21 +1,40 @@
 package actions;
 
+import main.CMain;
 import net.CClient;
 import dao.CEquipment;
 
 public class CSwitchOnAction implements IAction{
 
-	private int roomID;
+	private String equipmentName;
+	private String roomID;
+	private String floorID;
+	private int time = 0;
+	private long unit = 0;
 	
-	public CSwitchOnAction(int roomID)
+	
+	
+	public CSwitchOnAction(String equipmentName, String roomID, String floorID)
 	{
+		this.equipmentName = equipmentName;
 		this.roomID = roomID;
+		this.floorID = floorID;
 	}	
+	public CSwitchOnAction(String equipmentName, String roomID, String floorID, int time, long unit)
+	{
+		this.equipmentName = equipmentName;
+		this.roomID = roomID;
+		this.floorID = floorID;
+		this.time = time;
+		this.unit = unit;
+	}
+	
 	
 	@Override
 	public void execute() {
 		try {
-			CClient.getInstance().sendCommand(CEquipment.operateEquipmentsFromRoom(0, "1", roomID));
+			CClient.getInstance().sendCommand(CEquipment.operateOneEquipment(CMain.lights.get(equipmentName), "1"));
+			Thread.sleep(time*unit);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
