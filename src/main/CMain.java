@@ -4,6 +4,10 @@ import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 
+import actions.CScenariosManager;
+import actions.CSwitchOffAction;
+import actions.CSwitchOnAction;
+import actions.CWaitAction;
 import net.CClient;
 import net.CServer;
 import dao.CDatabase;
@@ -11,7 +15,7 @@ import dao.CDatabase;
 public class CMain {
 
 
-	public static final int HOUSE_PORT = 39098;
+	public static final int HOUSE_PORT = 3379;
 	public static final String HOUSE_IP = "192.168.56.1";
 	public static Connection con = null;
 
@@ -25,6 +29,30 @@ public class CMain {
 			DriverManager.registerDriver(pilote);
 			//Connexion
 			con = DriverManager.getConnection(CDatabase.CONNECTION_STRING, CDatabase.LOGIN, CDatabase.PASSWORD);
+			
+			
+			CScenariosManager.getInstance().addAction(new CSwitchOnAction(22));
+	    	CScenariosManager.getInstance().addAction(new CWaitAction(200));
+	    	CScenariosManager.getInstance().addAction(new CSwitchOffAction(16));
+	    	CScenariosManager.getInstance().addAction(new CWaitAction(1000));
+	    	CScenariosManager.getInstance().addAction(new CSwitchOnAction(8));
+	    	CScenariosManager.getInstance().addAction(new CWaitAction(200));
+	    	CScenariosManager.getInstance().addAction(new CSwitchOffAction(22));
+	    	CScenariosManager.getInstance().addAction(new CWaitAction(1000));
+	    	CScenariosManager.getInstance().addAction(new CSwitchOnAction(17));
+	    	CScenariosManager.getInstance().addAction(new CWaitAction(200));
+	    	CScenariosManager.getInstance().addAction(new CSwitchOffAction(8));
+	    	CScenariosManager.getInstance().addAction(new CWaitAction(1000));
+	    	CScenariosManager.getInstance().addAction(new CSwitchOnAction(23));
+	    	CScenariosManager.getInstance().addAction(new CWaitAction(200));
+	    	CScenariosManager.getInstance().addAction(new CSwitchOffAction(17));
+	    	CScenariosManager.getInstance().addAction(new CWaitAction(1000));
+	    	CScenariosManager.getInstance().addAction(new CSwitchOnAction(12));
+	    	CScenariosManager.getInstance().addAction(new CWaitAction(200));
+	    	CScenariosManager.getInstance().addAction(new CSwitchOffAction(23));
+	    	CScenariosManager.getInstance().addAction(new CWaitAction(5000));
+	    	CScenariosManager.getInstance().addAction(new CSwitchOffAction(12));
+			
 			
 			CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
 			CServer server = new CServer();
