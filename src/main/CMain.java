@@ -20,7 +20,7 @@ public class CMain {
 	public static final String HOUSE_IP = "192.168.56.1";
 	public static Connection con = null;
 	
-	static HashMap lights;
+	public static HashMap<String, Integer> lights;
 
 	public static void main(String[] args) {
 		
@@ -42,7 +42,7 @@ public class CMain {
 			lights.put("lumiere4", 65);
 			lights.put("lumiere5", 39);
 			
-			
+			/*
 			CScenariosManager.getInstance().addAction(new CSwitchOnAction(22));
 	    	CScenariosManager.getInstance().addAction(new CWaitAction(200));
 	    	CScenariosManager.getInstance().addAction(new CSwitchOffAction(16));
@@ -63,7 +63,7 @@ public class CMain {
 	    	CScenariosManager.getInstance().addAction(new CWaitAction(200));
 	    	CScenariosManager.getInstance().addAction(new CSwitchOffAction(23));
 	    	CScenariosManager.getInstance().addAction(new CWaitAction(5000));
-	    	CScenariosManager.getInstance().addAction(new CSwitchOffAction(12));
+	    	CScenariosManager.getInstance().addAction(new CSwitchOffAction(12));*/
 			
 
 			CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);

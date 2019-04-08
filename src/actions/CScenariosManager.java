@@ -6,7 +6,7 @@ import java.util.List;
 public class CScenariosManager {
     private static CScenariosManager sInstance = null;
 	
-	private List<IActions> actionsList;
+	private List<IAction> actionsList;
 	
 	
 	/**
@@ -25,14 +25,14 @@ public class CScenariosManager {
 	 */
 	private CScenariosManager()
 	{
-		actionsList = new ArrayList<IActions>();
+		actionsList = new ArrayList<IAction>();
 	}
 
 	/**
 	 * 
 	 * @param action
 	 */
-	public void addAction(IActions action)
+	public void addAction(IAction action)
 	{
 		if ((action != null) && (actionsList != null)) {
 			actionsList.add(action);
@@ -55,7 +55,7 @@ public class CScenariosManager {
 	public void executeScenario()
 	{
 		if (actionsList != null) {
-			for(IActions action : actionsList)
+			for(IAction action : actionsList)
 			{
 				if (action != null) {
 					action.execute();

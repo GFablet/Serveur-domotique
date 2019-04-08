@@ -1,6 +1,6 @@
 package actions;
 
-public class CWaitAction implements IActions{
+public class CWaitAction implements IAction{
 	
 	private long milliseconds = 0;
 
