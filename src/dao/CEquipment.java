@@ -117,6 +117,23 @@ public class CEquipment {
 		return equipmentsIpPortState;
 	}
 	
+	public static int returnEquipmentID(String equipmentName, String roomName, String floorName) throws SQLException
+	{
+		String sqlQuery = "SELECT * FROM equipements "
+						+	"INNER JOIN emplacements ON idemplacement = EmpID "
+						+	"INNER JOIN zones ON emplacements.ZoneID = zones.ZoneID "
+						+ "WHERE equipements.NOM = '" + equipmentName + "' "
+						+ "AND emplacements.NOM = '"+ roomName +"' "
+						+ "AND zones.NOM = '"+ floorName +"'";
+		Statement smt = CMain.con.createStatement();
+		ResultSet rs = smt.executeQuery(sqlQuery);
+		if(rs.next())
+		{
+			return rs.getInt("EquID");
+		}
+		return 0;
+	}
+	
 	public static List<String> operateGarageDoors(String etat, int roomID) throws Exception
 	{
 		List<String> garageDoorsIpPortState = new ArrayList<String>();

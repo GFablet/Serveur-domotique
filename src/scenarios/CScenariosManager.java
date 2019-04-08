@@ -1,7 +1,13 @@
-package actions;
+package scenarios;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+
+import scenarios.parser.CParserDSDL;
+import actions.IAction;
 
 public class CScenariosManager {
     private static CScenariosManager sInstance = null;
@@ -47,6 +53,14 @@ public class CScenariosManager {
 		if (actionsList != null) {
 			actionsList.clear();
 		}
+	}
+	
+	public void createScenario(String scenario) throws scenarios.parser.ParseException, ParseException
+	{
+		InputStream stream = new ByteArrayInputStream(scenario.getBytes());
+		CParserDSDL lParser = new CParserDSDL(stream);
+
+        lParser.Start();
 	}
 
 	/**

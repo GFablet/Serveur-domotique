@@ -7,22 +7,22 @@ import dao.CEquipment;
 public class CSwitchOnAction implements IAction{
 
 	private String equipmentName;
-	private String roomID;
-	private String floorID;
+	private String roomName;
+	private String floorName;
 	private int time = 0;
 	private long unit = 0;
 	
-	public CSwitchOnAction(String equipmentName, String roomID, String floorID)
+	public CSwitchOnAction(String equipmentName, String roomName, String floorName)
 	{
 		this.equipmentName = equipmentName;
-		this.roomID = roomID;
-		this.floorID = floorID;
+		this.roomName = roomName;
+		this.floorName = floorName;
 	}	
 	public CSwitchOnAction(String equipmentName, String roomID, String floorID, int time, long unit)
 	{
 		this.equipmentName = equipmentName;
-		this.roomID = roomID;
-		this.floorID = floorID;
+		this.roomName = roomID;
+		this.floorName = floorID;
 		this.time = time;
 		this.unit = unit;
 	}
@@ -31,7 +31,7 @@ public class CSwitchOnAction implements IAction{
 	@Override
 	public void execute() {
 		try {
-			CClient.getInstance().sendCommand(CEquipment.operateOneEquipment(CMain.lights.get(equipmentName), "1"));
+			CClient.getInstance().sendCommand(CEquipment.operateOneEquipment(CEquipment.returnEquipmentID(equipmentName, roomName, floorName), "1"));
 			Thread.sleep(time*unit);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

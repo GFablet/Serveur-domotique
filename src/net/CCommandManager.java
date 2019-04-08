@@ -3,7 +3,7 @@ package net;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import actions.CScenariosManager;
+import scenarios.CScenariosManager;
 import dao.CEquipment;
 
 public class CCommandManager {
@@ -48,7 +48,12 @@ public class CCommandManager {
 	        CClient.getInstance().sendCommand(CEquipment.operateGarageDoors(command[1], Integer.parseInt(command[2])));
 	    } else if(command[0].equals("scenario"))
 	    {
+	    	CScenariosManager.getInstance().createScenario(command[1]);
 	    	CScenariosManager.getInstance().executeScenario();
+	    	CScenariosManager.getInstance().removeAllActions();
+	    } else if(command[0].equals("returnEquipmentID"))
+	    {
+	    	result = " " + CEquipment.returnEquipmentID(command[1], command[2], command[3]);
 	    } 
 	    
 	    return result;

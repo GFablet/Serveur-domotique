@@ -1,11 +1,14 @@
 package main;
 
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.util.HashMap;
 
-import actions.CScenariosManager;
+import scenarios.parser.CParserDSDL;
+import scenarios.parser.ParseException;
+import scenarios.CScenariosManager;
 import actions.CSwitchOffAction;
 import actions.CSwitchOnAction;
 import actions.CWaitAction;
@@ -41,6 +44,16 @@ public class CMain {
 			lights.put("lumiere3", 16);
 			lights.put("lumiere4", 65);
 			lights.put("lumiere5", 39);
+			
+			/*CParserDSDL lParser = new CParserDSDL(new FileInputStream(args[0]));
+
+            try {
+                lParser.Start() ;
+            } catch (ParseException lException) {
+                System.out.println("Erreur de parsing : " + lException.getMessage());
+            }*/
+
+            // TODO : ici doit se trouver la demande d'exécution du scénario.
 			
 			/*
 			CScenariosManager.getInstance().addAction(new CSwitchOnAction(22));
