@@ -4,20 +4,23 @@ import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.util.HashMap;
-import java.util.Map;
 
+import actions.CScenariosManager;
+import actions.CSwitchOffAction;
+import actions.CSwitchOnAction;
+import actions.CWaitAction;
 import net.CClient;
 import net.CServer;
 import dao.CDatabase;
-import scenarios.parser.CParserDSDL;
 
 public class CMain {
 
 
-	public static final int HOUSE_PORT = 39098;
+	public static final int HOUSE_PORT = 11589;
 	public static final String HOUSE_IP = "192.168.56.1";
-	public static Map<String, Integer> lights = null;
 	public static Connection con = null;
+	
+	static HashMap lights;
 
 	public static void main(String[] args) {
 		
@@ -29,9 +32,7 @@ public class CMain {
 			DriverManager.registerDriver(pilote);
 			//Connexion
 			con = DriverManager.getConnection(CDatabase.CONNECTION_STRING, CDatabase.LOGIN, CDatabase.PASSWORD);
-			
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 
 			lights = new HashMap<>();
 			
@@ -42,12 +43,29 @@ public class CMain {
 			lights.put("lumiere5", 39);
 			
 			
+			CScenariosManager.getInstance().addAction(new CSwitchOnAction(22));
+	    	CScenariosManager.getInstance().addAction(new CWaitAction(200));
+	    	CScenariosManager.getInstance().addAction(new CSwitchOffAction(16));
+	    	CScenariosManager.getInstance().addAction(new CWaitAction(1000));
+	    	CScenariosManager.getInstance().addAction(new CSwitchOnAction(8));
+	    	CScenariosManager.getInstance().addAction(new CWaitAction(200));
+	    	CScenariosManager.getInstance().addAction(new CSwitchOffAction(22));
+	    	CScenariosManager.getInstance().addAction(new CWaitAction(1000));
+	    	CScenariosManager.getInstance().addAction(new CSwitchOnAction(17));
+	    	CScenariosManager.getInstance().addAction(new CWaitAction(200));
+	    	CScenariosManager.getInstance().addAction(new CSwitchOffAction(8));
+	    	CScenariosManager.getInstance().addAction(new CWaitAction(1000));
+	    	CScenariosManager.getInstance().addAction(new CSwitchOnAction(23));
+	    	CScenariosManager.getInstance().addAction(new CWaitAction(200));
+	    	CScenariosManager.getInstance().addAction(new CSwitchOffAction(17));
+	    	CScenariosManager.getInstance().addAction(new CWaitAction(1000));
+	    	CScenariosManager.getInstance().addAction(new CSwitchOnAction(12));
+	    	CScenariosManager.getInstance().addAction(new CWaitAction(200));
+	    	CScenariosManager.getInstance().addAction(new CSwitchOffAction(23));
+	    	CScenariosManager.getInstance().addAction(new CWaitAction(5000));
+	    	CScenariosManager.getInstance().addAction(new CSwitchOffAction(12));
 			
-			
-=======
->>>>>>> parent of b488e37... Ajout scénarios
-=======
->>>>>>> parent of b488e37... Ajout scénarios
+
 			CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
 			CServer server = new CServer();
 			

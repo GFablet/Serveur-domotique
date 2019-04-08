@@ -12,8 +12,19 @@ import main.CMain;
 
 public class CEquipment {
 
-	// Méthode d'insertion d'un équipement
-	// TODO mettre à jour
+	// MÃ©thode d'insertion d'un Ã©quipement
+	// TODO mettre Ã  jour
+	
+	//ID des portes des garages nord et ouest
+	private static final int N_GARAGE_DOOR_N = 172;
+	private static final int N_GARAGE_DOOR_S = 173;
+	private static final int W_GARAGE_DOOR_E = 175;
+	private static final int W_GARAGE_DOOR_W = 176;
+	//RÃ©fÃ©rence du type des climatiseurs dans la base de donnï¿½e
+	private static final int AC_TYPE = 1;
+	private static final int N_GARAGE_ID = 19;
+	private static final int W_GARAGE_ID = 20;
+	
 	public static void insertTest(String nom, String ip, String port, int type,
 			int idEmplacement, String etat, String positionXY,
 			String commentaire, Connection con) {
@@ -43,11 +54,11 @@ public class CEquipment {
 		}
 	}
 
-	// Allumer ou éteindre un équipement
-	public static List<String> turnOnOffOneEquipment(int id, String etat)
+	// Allumer ou Ã©teindre un Ã©quipement
+	public static List<String> operateOneEquipment(int id, String etat)
 			throws Exception {
 		List<String> equipmentIpPortState = new ArrayList<String>();
-		// Envoi d'une requête pour récupérer les infos de l'equipement
+		// Envoi d'une requÃªte pour rÃ©cupÃ©rer les infos de l'equipement
 		String sqlQuery = "SELECT * FROM equipements WHERE EquID = " + id;
 		Statement smt = CMain.con.createStatement();
 		ResultSet rs = smt.executeQuery(sqlQuery);
@@ -62,30 +73,36 @@ public class CEquipment {
 		return equipmentIpPortState;
 	}
 
-	// Allumer ou éteindre les équipements d'une pièce
-	public static List<String> turnOnOffEquipmentsFromRoom(int equipmentType,
+	// Allumer ou Ã©teindre les Ã©quipements d'une piÃ¨ce
+	public static List<String> operateEquipmentsFromRoom(int equipmentType,
 			String etat, int roomID) throws SQLException {
 		List<String> equipmentsIpPortState = new ArrayList<String>();
-		// Envoi d'une requête
+		// Envoi d'une requÃªte
 		String sql;
 		sql = "select * from equipements where type = " + equipmentType
 				+ " and idemplacement = " + roomID;
 		Statement smt = CMain.con.createStatement();
 		ResultSet rs = smt.executeQuery(sql);
 		while (rs.next()) {
-			equipmentsIpPortState.add(rs.getString("IP") + "+"
-					+ rs.getString("automate") + etat);
-			updateEquipment(equipmentType, "etat", etat, "type", CMain.con);
+			//On ignore les portes de garage
+			if(rs.getInt("EquID") != N_GARAGE_DOOR_N && rs.getInt("EquID") != N_GARAGE_DOOR_S
+			   && rs.getInt("EquID") != W_GARAGE_DOOR_E && rs.getInt("EquID") != W_GARAGE_DOOR_W)
+			{
+				equipmentsIpPortState.add(rs.getString("IP") + "+"
+						+ rs.getString("automate") + etat);
+				updateEquipment(equipmentType, "etat", etat, "type", CMain.con);
+			}
+			
 		}
 
 		return equipmentsIpPortState;
 	}
 
-	// Allumer ou éteindre les équipements d'un étage
-	public static List<String> turnOnOffEquipmentsFromFloor(int equipmentType,
+	// Allumer ou Ã©teindre les Ã©quipements d'un Ã©tage
+	public static List<String> operateEquipmentsFromFloor(int equipmentType,
 			String etat, int floorID) throws SQLException {
 		List<String> equipmentsIpPortState = new ArrayList<String>();
-		// Envoi d'une requête
+		// Envoi d'une requÃªte
 		String sql;
 		sql = "select * from equipements inner join emplacements on IDEMPLACEMENT = EmpID"
 				+ " where ZoneID = " + floorID + " and type = " + equipmentType;
@@ -99,12 +116,29 @@ public class CEquipment {
 
 		return equipmentsIpPortState;
 	}
+	
+	public static List<String> operateGarageDoors(String etat, int roomID) throws Exception
+	{
+		List<String> garageDoorsIpPortState = new ArrayList<String>();
+		if(roomID == N_GARAGE_ID)
+		{
+			garageDoorsIpPortState.addAll(operateOneEquipment(N_GARAGE_DOOR_N, etat));
+			garageDoorsIpPortState.addAll(operateOneEquipment(N_GARAGE_DOOR_S, etat));
+			return garageDoorsIpPortState;
+		}
+		else 
+		{
+			garageDoorsIpPortState.addAll(operateOneEquipment(W_GARAGE_DOOR_W, etat));
+			garageDoorsIpPortState.addAll(operateOneEquipment(W_GARAGE_DOOR_E, etat));
+			return garageDoorsIpPortState;
+		}
+	}
 
-	// Allumer ou éteindre un équipement
-	public static List<String> turnOnOffOneAC(int id, String etat, String mode)
+	// Allumer ou Ã©teindre un Ã©quipement
+	public static List<String> operateOneAC(int id, String etat, String mode)
 			throws Exception {
 		List<String> equipmentIpPortState = new ArrayList<String>();
-		// Envoi d'une requête pour récupérer les infos de l'equipement
+		// Envoi d'une requÃªte pour rÃ©cupÃ©rer les infos de l'equipement
 		String sqlQuery = "SELECT * FROM equipements WHERE EquID = " + id;
 		Statement smt = CMain.con.createStatement();
 		ResultSet rs = smt.executeQuery(sqlQuery);
@@ -119,13 +153,13 @@ public class CEquipment {
 		return equipmentIpPortState;
 	}
 
-	// Allumer ou éteindre la clim d'une pièce
-	public static List<String> turnOnOffACFromRoom(String etat, String mode,
+	// Allumer ou Ã©teindre la clim d'une piÃ¨ce
+	public static List<String> operateACFromRoom(String etat, String mode,
 			int roomID) throws SQLException {
 		List<String> equipmentsIpPortState = new ArrayList<String>();
-		// Envoi d'une requête
+		// Envoi d'une requÃªte
 		String sql;
-		sql = "select * from equipements where type = 3 and IDEMPLACEMENT = "
+		sql = "select * from equipements where type = "+ AC_TYPE +" and IDEMPLACEMENT = "
 				+ roomID;
 
 		Statement smt = CMain.con.createStatement();
@@ -133,34 +167,34 @@ public class CEquipment {
 		while (rs.next()) {
 			equipmentsIpPortState.add(rs.getString("IP") + "+"
 					+ rs.getString("automate") + etat + mode);
-			updateEquipment(3, "etat", etat, "type", CMain.con);
-			updateEquipment(3, "clim", mode, "type", CMain.con);
+			updateEquipment(AC_TYPE, "etat", etat, "type", CMain.con);
+			updateEquipment(AC_TYPE, "clim", mode, "type", CMain.con);
 		}
 
 		return equipmentsIpPortState;
 	}
 
-	// Allumer ou éteindre les équipements d'un étage
-	public static List<String> turnOnOffACFromFloor(String etat, 
+	// Allumer ou Ã©teindre les Ã©quipements d'un Ã©tage
+	public static List<String> operateACFromFloor(String etat, 
 			String mode, int floorID) throws SQLException {
 		List<String> equipmentsIpPortState = new ArrayList<String>();
-		// Envoi d'une requête
+		// Envoi d'une requÃªte
 		String sql;
 		sql = "select * from equipements inner join emplacements on IDEMPLACEMENT = EmpID"
-				+ " where ZoneID = " + floorID + " and type = 3";
+				+ " where ZoneID = " + floorID + " and type = " + AC_TYPE;
 		Statement smt = CMain.con.createStatement();
 		ResultSet rs = smt.executeQuery(sql);
 		while (rs.next()) {
 			equipmentsIpPortState.add(rs.getString("IP") + "+"
-					+ rs.getString("automate") + etat);
-			updateEquipment(3, "etat", etat, "type", CMain.con);
-			updateEquipment(3, "clim", mode, "type", CMain.con);
+					+ rs.getString("automate") + etat + mode);
+			updateEquipment(AC_TYPE, "etat", etat, "type", CMain.con);
+			updateEquipment(AC_TYPE, "clim", mode, "type", CMain.con);
 		}
 
 		return equipmentsIpPortState;
 	}
 
-	// Modifier une colomne d'un équipement
+	// Modifier une colomne d'un Ã©quipement
 	public static void updateEquipment(int idType, String column, String etat,
 			String where, Connection con) throws SQLException {
 		String sql;
@@ -180,7 +214,7 @@ public class CEquipment {
 		}
 	}
 
-	// Récupérer l'état d'un équipement
+	// RÃ©cupÃ©rer l'Ã©tat d'un Ã©quipement
 	public static String getEquipmentState(int id) throws SQLException {
 		String sqlQuery = "SELECT * FROM equipements WHERE EquID = " + id;
 		Statement smt = CMain.con.createStatement();

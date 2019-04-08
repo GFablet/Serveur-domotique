@@ -4,9 +4,19 @@ public class CWaitAction implements IActions{
 	
 	private long milliseconds = 0;
 
+	public CWaitAction(long milliseconds)
+	{
+		this.milliseconds = milliseconds;
+	}
+	
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
+		try {
+			Thread.sleep(milliseconds);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

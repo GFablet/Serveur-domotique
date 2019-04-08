@@ -1,6 +1,0 @@
-allumer lumiere1 de (chambre2;rdc) pendant 10 secondes
-eteindre lumiere1 de (chambre2;rdc)
-allumer lumiere2 de (chambre2;rdc) pendant 10 secondes
-allumer lumiere3 de (chambre3;rdc)
-allumer lumiere4 de (salon;premier_etage) pendant 10 secondes
-allumer lumiere5 de (chambre2;rdc) pendant 10 secondes

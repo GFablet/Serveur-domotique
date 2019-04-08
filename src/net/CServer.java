@@ -13,7 +13,7 @@ import dao.CEquipment;
 
 public class CServer extends ServerSocket implements Runnable{
     private static final int PORT = 45000; //Valeur arbitraire
-    public static boolean SERVER_WAITS = true;
+    //public static boolean SERVER_WAITS = true;
 
 	
     public CServer() throws Exception{
@@ -44,42 +44,9 @@ public class CServer extends ServerSocket implements Runnable{
 				System.out.println("Création des flux de sortie");
 				PrintWriter pw = new PrintWriter(
 								s.getOutputStream(), true);
-				String message; String[] command; String result; 
-			
-					//Récupération de la requête du client
-			  	System.out.println("Récupération de la requête du client");
-			  	message = br.readLine();
-			  	command = message.split("\\/");
-			  	result = "";
-			  	//Traitement de la requête du client(par exemple il s'agit de mettre en majuscules le message du client)
-			      System.out.println("Traitement de la requête client");
 			          
-			    if(command[0].equals("getState"))
-			    {
-			          	result = CEquipment.getEquipmentState(Integer.parseInt(command[1]));
-			          	pw.println(result);
-			          	//System.out.println(result);
-			    }else if(command[0].equals("turnOnOffOneEquipment"))
-			    {
-			    	//CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
-			        CClient.getInstance().sendCommand(CEquipment.turnOnOffOneEquipment(Integer.parseInt(command[1]), command[2]));
-			    } else if(command[0].equals("turnOnOffEquipmentsFromRoom"))
-			    {
-			        //CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
-			        CClient.getInstance().sendCommand(CEquipment.turnOnOffEquipmentsFromRoom(Integer.parseInt(command[1]), command[2], Integer.parseInt(command[3])));
-			    } else if(command[0].equals("turnOnOffEquipmentsFromFloor"))
-			    {
-			        //CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
-			        CClient.getInstance().sendCommand(CEquipment.turnOnOffEquipmentsFromFloor(Integer.parseInt(command[1]), command[2], Integer.parseInt(command[3])));
-			    } else if(command[0].equals("turnOnOffOneAC"))
-			    {
-			       // CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
-			        CClient.getInstance().sendCommand(CEquipment.turnOnOffOneAC(Integer.parseInt(command[1]), command[2], command[3]));
-			    } else if(command[0].equals("turnOnOffACFromRoom"))
-			    {
-			        //CClient.getInstance(CMain.HOUSE_PORT, CMain.HOUSE_IP);
-			        CClient.getInstance().sendCommand(CEquipment.turnOnOffACFromRoom(command[1], command[2], Integer.parseInt(command[3])));
-			    } 
+			    pw.println(CCommandManager.sendCommand(br.readLine()));
+			    
 			    pw.close(); br.close();
 			}
 			    
